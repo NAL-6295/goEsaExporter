@@ -20,9 +20,9 @@ var endpoint = "https://api.esa.io/v1"
 var token = flag.String("token", "", "api  token")
 var fromteam = flag.String("team", "", "teamname ***.esa.io")
 var rootpath = flag.String("root", "", "rootpath")
-var mode = flag.String("mode", "json", "json = jsonfile ,md = markdown file ")
+var mode = flag.String("mode", "md", "json = jsonfile ,md = markdown file ")
 var basepath = ".esa.io"
-
+var esateam = ""
 var ext = ""
 
 //Exists パス存在確認
@@ -44,7 +44,8 @@ func main() {
 		panic("mode is json|md")
 	}
 
-	exportpath := *rootpath + *fromteam + basepath
+	esateam = *fromteam + basepath
+	exportpath := *rootpath + esateam
 	if !Exists(exportpath) {
 		err := os.Mkdir(exportpath, 0644)
 		if err != nil {
@@ -123,6 +124,19 @@ func ToLocal(post Post, exportpath string) {
 
 		var savedFileName = DownloadImage(url, postImagePath, replaceImagePath)
 		md = strings.Replace(md, url, savedFileName, 1)
+	})
+
+	var target = "https://" + esateam + "/posts/"
+	doc.Find("a").Each(func(_ int, s *goquery.Selection) {
+		url, _ := s.Attr("href")
+
+		if strings.Index(url, target) < 0 {
+			return
+		}
+
+		var _, esaFileName = path.Split(url)
+
+		md = strings.Replace(md, url, esaFileName+".md", 1)
 	})
 
 	file, err := os.OpenFile(postImagePath+ext, os.O_RDWR|os.O_CREATE, 0666)
