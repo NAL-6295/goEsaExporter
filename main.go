@@ -56,9 +56,17 @@ func main() {
 	page := 1
 	nextPage := 0
 
+	file, err := os.OpenFile(filepath.Join(exportpath, "index.md"), os.O_RDWR|os.O_CREATE, 0666)
+
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+	fmt.Fprintln(file, "## 索引")
+
 	for {
 
-		nextPage = requestPage(page, exportpath)
+		nextPage = requestPage(page, exportpath, file)
 		if nextPage == 0 {
 			return
 		}
@@ -69,7 +77,7 @@ func main() {
 
 }
 
-func requestPage(page int, exportpath string) int {
+func requestPage(page int, exportpath string, indexFile *os.File) int {
 	authorizationValue := "Bearer " + *token
 	var url = endpoint + "/teams/" + *fromteam + "/posts?page=" + strconv.Itoa(page)
 	req, err := http.NewRequest("GET", url, nil)
@@ -92,6 +100,7 @@ func requestPage(page int, exportpath string) int {
 
 	for _, post := range posts.Posts {
 		ToLocal(post, exportpath)
+		fmt.Fprintln(indexFile, "- ["+post.FullName+"]("+strconv.Itoa(post.Number)+".md)")
 	}
 	fmt.Println("page:" + strconv.Itoa(page))
 
