@@ -3,8 +3,8 @@
 
 ### sample
 ```
-goEsaExporter.exe -mode=md -root="d:\\" -team="teamname" -token="api token"
+goEsaExporter -mode=md -root="d:\\" -team="teamname" -token="api token"
 ```
 
-goEsaExporter.exe -h
+goEsaExporter -h
 で、使い方が出ます
