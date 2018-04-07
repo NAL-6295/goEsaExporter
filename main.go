@@ -17,10 +17,13 @@ import (
 )
 
 var endpoint = "https://api.esa.io/v1"
-var token = flag.String("token", "token", "access token")
-var fromteam = flag.String("teamname", "teamname", "teamname ***.esa.io")
-var rootpath = flag.String("root", "pathroot", "rootpath")
+var token = flag.String("token", "", "api  token")
+var fromteam = flag.String("team", "", "teamname ***.esa.io")
+var rootpath = flag.String("root", "", "rootpath")
+var mode = flag.String("mode", "json", "json = jsonfile ,md = markdown file ")
 var basepath = ".esa.io"
+
+var ext = ""
 
 //Exists パス存在確認
 func Exists(filename string) bool {
@@ -31,6 +34,15 @@ func Exists(filename string) bool {
 func main() {
 	flag.Parse()
 	fmt.Println("test")
+
+	switch *mode {
+	case "md":
+		ext = ".md"
+	case "json":
+		ext = ".json"
+	default:
+		panic("mode is json|md")
+	}
 
 	exportpath := *rootpath + *fromteam + basepath
 	if !Exists(exportpath) {
@@ -49,6 +61,7 @@ func main() {
 		if nextPage == 0 {
 			return
 		}
+		//12秒に1回にすることで、API制限を回避
 		time.Sleep(12 * time.Second)
 		page++
 	}
@@ -73,7 +86,6 @@ func requestPage(page int, exportpath string) int {
 		panic(err)
 	}
 	defer resp.Body.Close()
-
 	var posts Posts
 	json.NewDecoder(resp.Body).Decode(&posts)
 
@@ -113,24 +125,22 @@ func ToLocal(post Post, exportpath string) {
 		md = strings.Replace(md, url, savedFileName, 1)
 	})
 
-	file, err := os.OpenFile(postImagePath+".md", os.O_RDWR|os.O_CREATE, 0666)
+	file, err := os.OpenFile(postImagePath+ext, os.O_RDWR|os.O_CREATE, 0666)
+
 	if err != nil {
 		panic(err)
 	}
 	defer file.Close()
 
-	fmt.Fprintln(file, md)
-
-	//	os.File.
-
-	//	stringReader := strings.NewReader(post.BodyMd)
-	//	doc, err := goquery.NewDocumentFromReader(stringReader)
-	//	if err != nil {
-	//		fmt.Print("url scarapping failed")
-	//	}
-	//	fmt.Println(post.BodyHTML)
+	switch *mode {
+	case "json":
+		json.NewEncoder(file).Encode(&post)
+	case "md":
+		fmt.Fprintln(file, md)
+	}
 }
 
+//DownloadImage 画像のダウンロード
 func DownloadImage(url string, exportpath string, replacePath string) string {
 	response, err := http.Get(url)
 	if err != nil {
