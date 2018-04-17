@@ -132,7 +132,9 @@ func ToLocal(post Post, exportpath string) {
 		url, _ := s.Attr("src")
 
 		var savedFileName = DownloadImage(url, postImagePath, replaceImagePath)
-		md = strings.Replace(md, url, savedFileName, 1)
+		if(savedFileName != ""){
+			md = strings.Replace(md, url, savedFileName, 1)			
+		}
 	})
 
 	var target = "https://" + esateam + "/posts/"
@@ -178,7 +180,9 @@ func DownloadImage(url string, exportpath string, replacePath string) string {
 	file, err := os.OpenFile(fullName, os.O_RDWR|os.O_CREATE, 0666)
 
 	if err != nil {
-		panic(err)
+		fmt.Println("not open");
+		return "";
+//		panic(err)
 	}
 	defer file.Close()
 
