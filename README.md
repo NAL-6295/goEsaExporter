@@ -5,16 +5,28 @@ esa.io export and local restructure tool.
 
 esa.io is https://esa.io
 
-## export data
+## export data and create data
 - esa.io target team all article datas.
   - json
   - markdown
-- image files by img tag
+- Image files by img tag
+- Modify img tag url for local filesystem.
+- Create index file.Name is index.md location exported root path.
 
 ### sample
 ```
 goEsaExporter -mode=md -root="d:\\" -team="teamname" -token="api token"
 ```
 
+### help
+```
 goEsaExporter -h
-で、使い方が出ます
+```
+
+### Local file borwsing
+1.Install below extention.'Markdown viewer'
+https://chrome.google.com/webstore/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk?hl=ja&gl=JP
+src url
+https://github.com/simov/markdown-viewer
+2.Set 'on' allow access to file URLs.
+3.Open index.md,it is location exported root path.
