@@ -26,8 +26,5 @@ goEsaExporter -h
 ### Local file borwsing
 1. Install below extention.'Markdown viewer'
 https://chrome.google.com/webstore/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk?hl=ja&gl=JP
-
-src url
-https://github.com/simov/markdown-viewer
 1. Set 'on' allow access to file URLs.
 1. Open index.md,it is location exported root path.
