@@ -1,7 +1,7 @@
 
 [EsaExporter](https://github.com/NAL-6295/EsaExporter)のgolang版
 
-esa.io export and local restructure tool.
+This is export from esa.io and restructure to local.
 
 esa.io is https://esa.io
 
