@@ -27,4 +27,4 @@ goEsaExporter -h
 1. Install below extention.'Markdown viewer'
 https://chrome.google.com/webstore/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk?hl=ja&gl=JP
 1. Set 'on' allow access to file URLs.
-1. Open index.md,it is location exported root path.
+1. Open index.md.It place is root path of exported place.
