@@ -11,7 +11,7 @@ esa.io is https://esa.io
   - markdown
 - Image files by img tag
 - Modify img tag url for local filesystem.
-- Create index file.Name is index.md location exported root path.
+- Create index file to root path of exported place.Name is index.md.
 
 ### sample
 ```
