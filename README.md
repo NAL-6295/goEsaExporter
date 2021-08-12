@@ -1,5 +1,5 @@
 
-[EsaExporter](https://github.com/NAL-6295/EsaExporter)のgolang版
+Rewrote [EsaExporter](https://github.com/NAL-6295/EsaExporter) using Go.
 
 This tool has function that export from esa.io to local.
 
